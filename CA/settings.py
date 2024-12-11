@@ -52,10 +52,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "CA.urls"
 
+# settings.py 中的 TEMPLATES 配置
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # 指向 templates 目录
+        'DIRS': [BASE_DIR / 'templates'],  # 确保指向 templates 根目录
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,6 +71,7 @@ TEMPLATES = [
 
 
 
+
 WSGI_APPLICATION = "CA.wsgi.application"
 
 
@@ -79,10 +81,10 @@ WSGI_APPLICATION = "CA.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'CA',
-        'USER': 'root',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
+        'NAME': 'CA_Data',
+        'USER': 'caserver',
+        'PASSWORD': 'guet',
+        'HOST': '47.106.143.170',
         'PORT': '3306',
     }
 }
