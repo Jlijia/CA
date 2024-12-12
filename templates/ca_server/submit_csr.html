@@ -1,23 +1,12 @@
-{% extends "interface.html" %}
-
-{% block content %}
-<div>
-    <h1>提交CSR文件</h1>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <label for="name">姓名：</label>
-        <input type="text" id="name" name="name" required><br><br>
-        
-        <label for="gender">性别：</label>
-        <select id="gender" name="gender" required>
-            <option value="male">男</option>
-            <option value="female">女</option>
-        </select><br><br>
-        
-        <label for="public_key">公钥：</label>
-        <textarea id="public_key" name="public_key" readonly>{{ public_key }}</textarea><br><br>
-        
-        <button type="submit">提交CSR</button>
-    </form>
-</div>
-{% endblock %}
+<h1>证书申请</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="name">姓名：</label>
+    <input type="text" id="name" name="name" required><br><br>
+    <label for="gender">性别：</label>
+    <select id="gender" name="gender">
+        <option value="male">男</option>
+        <option value="female">女</option>
+    </select><br><br>
+    <button type="submit">提交</button>
+</form>

@@ -40,7 +40,7 @@ def submit_csr(request):
 
     # 生成公钥并渲染页面
     public_key = generate_public_key()
-    return render(request, 'submit_csr.html', {'public_key': public_key})
+    return render(request, 'ca_server/submit_csr.html', {'public_key': public_key})
 
 
 

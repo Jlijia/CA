@@ -30,6 +30,7 @@
             margin: 10px 0;
             padding: 10px;
             border-radius: 5px;
+            cursor: pointer;
         }
         .sidebar a:hover {
             background-color: #34495e;
@@ -48,20 +49,33 @@
             font-size: 16px;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="sidebar">
         <h2>CA系统功能</h2>
-        <a href="#">证书申请</a>
-        <a href="#">证书签发</a>
-        <a href="#">证书存储</a>
-        <a href="#">证书查询与下载</a>
-        <a href="#">证书吊销</a>
-        <a href="#">证书验证</a>
+        <a data-url="{% url 'submit_csr' %}">证书申请</a>
+        <a data-url="#">证书签发</a>
+        <a data-url="#">证书存储</a>
+        <a data-url="#">证书查询与下载</a>
+        <a data-url="#">证书吊销</a>
+        <a data-url="#">证书验证</a>
     </div>
-    <div class="main-content">
+    <div class="main-content" id="main-content">
         <h1>欢迎来到小型CA系统</h1>
         <p class="placeholder">请选择左侧的功能来进行操作。</p>
     </div>
+    <script>
+        // 动态加载内容
+        $(document).ready(function() {
+            $('.sidebar a').on('click', function(event) {
+                event.preventDefault();
+                const url = $(this).data('url');
+                if (url) {
+                    $('#main-content').load(url); // 使用 jQuery 动态加载内容
+                }
+            });
+        });
+    </script>
 </body>
 </html>
