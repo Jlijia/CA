@@ -7,7 +7,7 @@ from cryptography.hazmat.primitives import serialization
 
 # 初始界面
 def index(request):
-    return render(request, 'ca_server/base.html')
+    return render(request, 'ca_server/interface.html')
 
 #提交CSR证书
 def generate_public_key():
