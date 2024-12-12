@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Certificate
 from django.http import HttpResponse
 from django.utils import timezone
-
+import requests
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from cryptography import x509
@@ -17,40 +17,32 @@ from django.template import loader
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import padding
 
-# 客户端提交 CSR 文件
-def submit_csr(request):
-    if request.method == 'POST':
-        # 获取上传的 CSR 文件
-        csr_file = request.FILES['csr_file']
-        csr_content = csr_file.read().decode('utf-8')
+@csrf_exempt
+def upload_csr(request):
+    if request.method == "POST":
+        try:
+            # 获取上传的文件
+            csr_file = request.FILES.get("csr_file")
+            if not csr_file:
+                return JsonResponse({"error": "CSR file is required."}, status=400)
 
-        # 创建 Certificate 对象并保存
-        certificate = Certificate(name='New Certificate', csr=csr_content, date_issued=timezone.now())
-        certificate.save()
+            # 读取文件内容
+            csr_content = csr_file.read()
 
-        return redirect('ca_server:review_certificate', certificate_id=certificate.id)
-    return render(request, 'ca_client/index.html')  # 客户端提交 CSR 页面
+            # 调用 CA 签发证书的 API
+            ca_api_url = "http://127.0.0.1:8000/ca_server/api/sign_csr"
+            response = requests.post(ca_api_url, files={"csr_file": csr_content})
 
+            # 检查 API 响应
+            if response.status_code == 200:
+                return JsonResponse(response.json())
+            else:
+                return JsonResponse({"error": "CA API error", "details": response.text}, status=response.status_code)
 
-# 审核证书申请
-def review_certificate(request, certificate_id):
-    certificate = Certificate.objects.get(id=certificate_id)
-
-    if request.method == 'POST':
-        if 'approve' in request.POST:
-            # 签发证书
-            certificate.status = 'Issued'
-            certificate.save()
-            return HttpResponse("证书已签发")
-        elif 'reject' in request.POST:
-            # 拒绝证书申请
-            certificate.status = 'Rejected'
-            certificate.save()
-            return HttpResponse("证书申请被拒绝")
-
-    return render(request, 'ca_server/review_certificate.html', {'certificate': certificate})  # 服务器端证书审核详情页面
-
-
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    else:
+        return render(request, "ca_server/upload_csr.html")
 
 @csrf_exempt
 def sign_csr(request):
