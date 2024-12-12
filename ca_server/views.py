@@ -90,7 +90,7 @@ def sign_csr(request):
             )
 
             # 保存
-            cert_path = os.path.join(settings.BASE_DIR+"/templates/test")
+            cert_path = os.path.join(settings.BASE_DIR+"/templates/certificates")
             serial_number = issued_cert.serial_number     # 提取序列号
 
             with open(cert_path + f"/{serial_number}.cer", mode='wb') as cert_file:
