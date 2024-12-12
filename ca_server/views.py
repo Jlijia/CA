@@ -17,6 +17,7 @@ from django.template import loader
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import padding
 
+
 @csrf_exempt
 def upload_csr(request):
     if request.method == "POST":
