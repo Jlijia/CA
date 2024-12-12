@@ -94,6 +94,7 @@ def sign_csr(request):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
     else:
+
         return JsonResponse({"error": "Invalid HTTP method."}, status=405)
 
 @csrf_exempt
