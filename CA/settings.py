@@ -79,10 +79,10 @@ WSGI_APPLICATION = "CA.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'CA',
-        'USER': 'root',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
+        'NAME': 'roricallry_test',
+        'USER': 'caserver',
+        'PASSWORD': 'guet',
+        'HOST': '47.106.143.170',
         'PORT': '3306',
     }
 }
